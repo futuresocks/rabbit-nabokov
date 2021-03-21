@@ -30,6 +30,21 @@ const App = () => {
     playGame();
   }, [playerCard])
 
+  useEffect(() => {
+    if(!outcome) return;
+    const PAYOUTS = {
+      "RABBIT": 1,
+      "KHOROSHO": 2,
+      "PIROSHKY": 10,
+      "MISCHA": 50,
+      "KATYUSHA": -10,
+      "RABBIT NABOKOV": 100
+    }
+    const updatedFunds = playerFunds + (playerBet * PAYOUTS[outcome]);
+    console.log(updatedFunds);
+    setPlayerFunds(updatedFunds);
+  }, [outcome])
+
   const checkForRabbit = () => {
     const CARD_VALUES = {
       "2": 2,
@@ -73,17 +88,17 @@ const App = () => {
 
   const playGame = () => {
     // 1) If the difference in the value is 2, that's a "Rabbit" and the Player wins how much he bet.
-    if(checkForRabbit()) return setOutcome("RABBIT") && setPlayerFunds(playerFunds + playerBet);
+    if(checkForRabbit()) return setOutcome("RABBIT")
     // 2) If the Player has a face card (King, Queen, Jack) or 10, and it matches the suit of the dealer's card, that's a "Khorosho/Good" and the Player wins double his bet.
-    if(checkForKhorosho()) return setOutcome("KHOROSHO") && setPlayerFunds(playerFunds + (playerBet * 2));
+    if(checkForKhorosho()) return setOutcome("KHOROSHO")
     // 3) If the Dealer reveals an Ace and the Player reveals an Ace, that's a "Piroshky/Feast" and the Player wins 10 times his bet.
-    if(checkForPiroshky()) return setOutcome('PIROSHKY') && setPlayerFunds(playerFunds + (playerBet * 10));
+    if(checkForPiroshky()) return setOutcome('PIROSHKY')
     // 4a) If the Dealer reveals a 2, only a Joker can beat it. If the Player does reveal a Joker, that's a "Mischa" and he wins 50 times his bet.
-    if(checkForMischa()) return setOutcome('MISCHA') && setPlayerFunds(playerFunds + (playerFunds * 50));
+    if(checkForMischa()) return setOutcome('MISCHA')
     // 4b) If the Player shows a 2 and the Dealer shows a 2, that's a "Katyusha/Casualty" and the Player loses 10 times his bet.
-    if(checkForKatyusha()) return setOutcome('KATYUSHA') && setPlayerFunds(playerFunds - (playerBet * 10));
+    if(checkForKatyusha()) return setOutcome('KATYUSHA')
     // 5) If the Dealer shows a Joker and the Player plays a 2 of Hearts, that's a "Rabbit Nabokov" and the Player wins 100 times his bet.
-    if(checkForRabbitNabokov()) return setOutcome('RABBIT NABOKOV') && setPlayerFunds(playerFunds + (playerFunds * 100));
+    if(checkForRabbitNabokov()) return setOutcome('RABBIT NABOKOV')
     // 6) If none of the above occur then it is a "Potov/Miss" and the Player loses his bet.
     setOutcome('POTOV'); 
   }
