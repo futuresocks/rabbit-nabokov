@@ -41,6 +41,7 @@ const App = () => {
       MISCHA: 50,
       KATYUSHA: -10,
       "RABBIT NABOKOV": 100,
+      POTOV: 0,
     };
     const updatedFunds = playerFunds + playerBet * PAYOUTS[outcome];
     console.log(updatedFunds);
@@ -118,12 +119,12 @@ const App = () => {
   };
 
   return (
-    <div className="container mx-auto bg-green-700 flex flex-col">
+    <div className="bg-green-700">
       {outcome && <h1>THAT'S A {outcome}</h1>}
-      <div className="flex-start">
+      <div className="mx-auto">
         {dealerCard && <img src={dealerCard.image} />}
       </div>
-      <div className="flex flex-row self-end">
+      <div className="flex flex-row justify-around">
         {playerCards &&
           playerCards.map((card) => {
             return (
